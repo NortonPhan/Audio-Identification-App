@@ -1,7 +1,45 @@
 body{
-    text-align: center;
-    background-color: green;
+    background-color: brown;
 }
-h1{
-    font-size: 100px;
+
+.header_div{
+    background:white;
+    color:crimson;
+}
+
+.header_div h1{
+    font-family: 'Times New Roman', Times, serif;
+    color:gray;
+    letter-spacing: 2px;
+    font-size: 45px;
+    font-weight:bold;
+}
+
+.main_div button{
+    font-family: 'Red Hat Mono', monospace;
+    font-size: 25px;
+    margin-top: 30px;
+    width: 190px;
+    height: 60px;
+    font-weight:bolder;
+    letter-spacing: 3px;
+}
+
+.div_right_footer {
+    position: fixed;
+    color:grey;
+    bottom: 0;
+    width: 100%;
+    font-size: 18px;
+    background-color: wheat;
+    line-height: 3;
+    text-align: center;
+    text-shadow: 5px 5px 5px blueviolet;
+}
+.aliens{
+    width: 300px;
+    height: 250px;
+}
+#result_label{
+    font-size: 50px;
 }

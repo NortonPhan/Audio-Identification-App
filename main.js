@@ -1,41 +1,57 @@
-// https://teachablemachine.withgoogle.com/models/gJ89c2Ub4/
-
-Webcam.set({
-    width:350,
-    height:300,
-    image_format : 'png',
-    png_quality: 90
-   });
-
-   camera = document.getElementById("camera");
-
-Webcam.attach( '#camera' );
-
-function take_snapshot()
+//https://teachablemachine.withgoogle.com/models/qwoeb-f3g/
+function startClassification()
 {
-    Webcam.snap(function(data_uri) {
-        document.getElementById("captured_image").innerHTML = '<img id="captured_image" src="'+data_uri+'"/>';
+    navigator.mediaDevices.getUserMedia({ audio: true});
+    classifier = ml5.soundClassifier('https://teachablemachine.withgoogle.com/models/qwoeb-f3g/model.json', modelReady);
 
-    });
 }
-console.log('ml5 version:', ml5.version);
-classifier = ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/gJ89c2Ub4/model.json', modelLoaded);
 
-function modelLoaded()
-{
-    console.log("Model loaded.");
+function modelReady(){
+    classifier.classify(gotResults);
 }
-function check()
-{
-    img = document.getElementById('captured_image');
-    classifier.classify(img, gotResult);
-}
-gotResult(error, results)
+function gotResults(error, results) {
     if (error) {
-        console.log(error);
+        console.error(error);
     } else {
         console.log(results);
-        document.getElementById("result_object_name").innerHTML = results[0].label;
-        document.getElementById("result_object_accuracy").innerHTML = results[0].confidence.toFixed(3);
-    }
+        random_number_r = Math.floor(Math.random() * 255) + 1;
+        random_number_g = Math.floor(Math.random() * 255) + 1;
+        random_number_b = Math.floor(Math.random() * 255) + 1;
 
+        document.getElementById("result_label").innerHTML = 'I can hear -'+ results[0].label;
+
+        document.getElementById("result_confidence").innerHTML = 'Accuracy -'+ (results[0].confidence*100).toFixed(2)+" %";
+        document.getElementById("result_label").style.color = "rgb("+random_number_r+", "+random_number_g+", "+random_number_b+")";
+        document.getElementById("result_confidence").style.color = "rgb("+random_number_r+", "+random_number_g+", "+random_number_b+")";
+
+        img1 = document.getElementById('alien1');
+        img2 = document.getElementById('alien2');
+        img3 = document.getElementById('alien3');
+        img4 = document.getElementById('alien4');
+
+        if (results[0].label == "Clapping") {
+            img1.src = 'aliens-01.gif';
+            img2.src = 'aliens-02.png';
+            img3.src = 'aliens-03.png';
+            img4.src = 'aliens-04.png';
+            
+
+        } else if (results[0].label == "Snapping") {
+            img1.src = 'aliens-01.png';
+            img2.src = 'aliens-02.gif';
+            img3.src = 'aliens-03.png';
+            img4.src = 'aliens-04.png';
+            
+        } else if (results[0].label == "Keyboard"){
+            img1.src = 'aliens-01.png';
+            img2.src = 'aliens-02.png';
+            img3.src = 'aliens-03.gif';
+            img4.src = 'aliens-04.png';  
+        } else if (results[0].label == "Background Noise") {
+            img1.src = 'aliens-01.png';
+            img2.src = 'aliens-02.png';
+            img3.src = 'aliens-03.png';
+            img4.src = 'aliens-04.gif';
+        }
+    }
+}
